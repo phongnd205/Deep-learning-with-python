@@ -5,9 +5,10 @@ Created on Sun Apr 14 22:05:45 2019
 
 @author: phongnd205
 """
-import tensorflow
+#import tensorflow
 from tensorflow import keras
 from keras.datasets import boston_housing
+
 
 (train_data, train_targets), (test_data, test_targets) = boston_housing.load_data()
 
@@ -20,9 +21,11 @@ test_data /= std
 
 def build_model():
     model = keras.models.Sequential()
-    model.add(keras.layers.Dense(64, activation='relu',
+    model.add(keras.layers.Dense(64, keras.regularizers.kernel_regularizers.l2(0.001),
+                                 activation='relu',
                                  input_shape=(train_data.shape[1],)))
-    model.add(keras.layers.Dense(64, activation='relu'))
+    model.add(keras.layers.Dense(64, keras.regularizers.kernel_regularizers.l2(0.001),
+                                 activation='relu'))
     model.add(keras.layers.Dense(1))
     model.compile(optimizer='rmsprop', loss='mse', metrics=['mae'])
     return model
